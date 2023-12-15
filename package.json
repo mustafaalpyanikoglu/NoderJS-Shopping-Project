@@ -1,23 +1,27 @@
 {
-  "name": "nodejs",
+  "name": "nodejs-complete-guide",
   "version": "1.0.0",
   "description": "Complete Node.js Guide",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "start-server": "node app.js"
   },
-  "author": "Mustafa Alp Yanıkoğlu",
+  "author": "Maximilian Schwarzmüller",
   "license": "ISC",
   "devDependencies": {
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "nodemon": "^3.0.2"
+    "eslint": "^8.55.0",
+    "eslint-config-google": "^0.14.0",
+    "nodemon": "^1.18.3"
   },
   "dependencies": {
-    "ejs": "^3.1.9",
-    "express-handlebars": "3.0",
-    "pug": "^3.0.2"
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.6.5",
+    "pug": "^2.0.3"
   }
 }
