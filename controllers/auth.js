@@ -2,13 +2,17 @@ const bcrypt = require('bcryptjs'); ;
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
-  // const isLoggedIn = req.get('Cookie')
-  //     .split(';')[0]
-  //     .trim()
-  //     .split('=')[1] === 'true';
+  let message = req.flash('error');
+  console.log(message);
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
+    errorMessage: message,
   });
 };
 
@@ -19,6 +23,7 @@ exports.postLogin = (req, res, next) => {
       .findOne({email: email})
       .then((user) => {
         if (!user) {
+          req.flash('error', 'Invalid email or password.');
           return res.redirect('/auth/login');
         }
         bcrypt
@@ -33,6 +38,7 @@ exports.postLogin = (req, res, next) => {
                       res.redirect('/');
                     });
               }
+              req.flash('error', 'Invalid email or password.');
               res.redirect('/auth/login');
             })
             .catch((err) => {
@@ -51,9 +57,16 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'Signup',
+    errorMessage: message,
   });
 };
 
@@ -68,6 +81,7 @@ exports.postSignup = (req, res, next) => {
   User.findOne({email: email})
       .then((userDoc) => {
         if (userDoc) {
+          req.flash('error', 'E-Mail exists already.');
           return res.redirect('/auth/signup');
         }
         return bcrypt
