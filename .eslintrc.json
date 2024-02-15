@@ -15,6 +15,7 @@
         "function-paren-newline": ["error", "multiline"],
         "new-cap": "off",
         "no-multiple-empty-lines":["error", { "max": 1 }],
-        "no-throw-literal":"off"
+        "no-throw-literal":"off",
+        "max-len": ["error", { "code": 100 }]
     }
 }

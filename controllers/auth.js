@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const {validationResult} = require('express-validator');
 
 const User = require('../models/user');
 
@@ -26,12 +27,34 @@ exports.getLogin = (req, res, next) => {
     path: '/login',
     pageTitle: 'Login',
     errorMessage: message,
+    oldInput: {
+      email: '',
+      password: '',
+    },
+    validationErrors: [],
   });
 };
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array()[0].msg);
+    return res.status(422)
+        .render('auth/login', {
+          path: '/login',
+          pageTitle: 'Login',
+          errorMessage: errors.array()[0].msg,
+          oldInput: {
+            email: email,
+            password: password,
+          },
+          validationErrors: errors.array(),
+        });
+  }
+
   User
       .findOne({email: email})
       .then((user) => {
@@ -80,6 +103,13 @@ exports.getSignup = (req, res, next) => {
     path: '/signup',
     pageTitle: 'Signup',
     errorMessage: message,
+    oldInput: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationErrors: [],
   });
 };
 
@@ -87,33 +117,40 @@ exports.postSignup = (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-  if (password !== confirmPassword) {
-    console.log('Password do not match!');
-  }
-  User.findOne({email: email})
-      .then((userDoc) => {
-        if (userDoc) {
-          req.flash('error', 'E-Mail exists already.');
-          return res.redirect('/auth/signup');
-        }
-        return bcrypt
-            .hash(password, 12)
-            .then((hashedPassword) => {
-              const user = new User({
-                name: name,
-                email: email,
-                password: hashedPassword,
-                cart: {items: []},
-              });
 
-              return user.save();
-            })
-            .then((_) => {
-              res.redirect('/auth/login');
-            })
-            .catch((err) => console.log(err));
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422)
+        .render('auth/signup', {
+          path: '/signup',
+          pageTitle: 'Signup',
+          errorMessage: errors.array()[0].msg,
+          oldInput: {
+            name: name,
+            email: email,
+            password: password,
+            confirmPassword: req.body.confirmPassword,
+          },
+          validationErrors: errors.array(),
+        });
+  }
+
+  bcrypt
+      .hash(password, 12)
+      .then((hashedPassword) => {
+        const user = new User({
+          name: name,
+          email: email,
+          password: hashedPassword,
+          cart: {items: []},
+        });
+
+        return user.save();
       })
+      .then((_) => {
+        res.redirect('/auth/login');
+      })
+      .catch((err) => console.log(err))
       .catch((err) => console.log(err));
 };
 
@@ -159,7 +196,8 @@ exports.postReset = (req, res, next) => {
             subject: 'Password reset',
             html: `
             <p>You requested a password reset</p>
-            <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+            <p>Click this <a href="http://localhost:3000/reset/${token}">
+            link</a> to set a new password.</p>
           `,
           });
         })
