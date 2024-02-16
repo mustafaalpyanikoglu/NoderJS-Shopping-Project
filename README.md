@@ -3,7 +3,7 @@ The project I did while learning Nodejs.
 
 <img src="https://miro.medium.com/v2/resize:fit:750/0*3P4WhyFtuwCV5nTa.jpg" width="500">
 
-# Content I Learned
+## Content I Learned
  - Node.js Basics & Basic Core Modules
  - Parsing Requests & Sending Responses
  - Rendering HTML Dynamically (on the Server)
@@ -18,7 +18,7 @@ The project I did while learning Nodejs.
  - Sending E-Mails
  - Validating User Input
 
-# Application Pages
+## Application Pages
 
  - Main page.
 
