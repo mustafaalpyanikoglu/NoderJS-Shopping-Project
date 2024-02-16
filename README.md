@@ -58,7 +58,7 @@ The project I did while learning Nodejs.
 
 <h6 style="font-weight: bold; font-size: 24px;">
     <a style="color: #E6EDF3!important; text-decoration: none;" href="https://pitch-woodwind-533.notion.site/Node-js-8b9c7363cb924eed9c5c6031fd45e241">
-     <img src="https://github.com/mustafaalpyanikoglu/NoderJS-Shopping-Project/assets/79158705/74c6bb2f-f286-4cc0-b9a1-2665b44eaf6f" alt="Notion Icon" width="40">
+     <img src="https://github.com/mustafaalpyanikoglu/NoderJS-Shopping-Project/assets/79158705/74c6bb2f-f286-4cc0-b9a1-2665b44eaf6f" width="40">
       My Turkish document where I take notes about what I have learned.</a>
 </h6>
 
