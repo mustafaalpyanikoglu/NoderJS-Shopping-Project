@@ -1,4 +1,4 @@
-# NoderJS-Shopping-Project
+# Shopping Project
 The project I did while learning Nodejs.
 
 <img src="https://miro.medium.com/v2/resize:fit:750/0*3P4WhyFtuwCV5nTa.jpg" width="500">
